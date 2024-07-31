@@ -169,8 +169,7 @@ namespace Reddit.Models.Internal
             do
             {
                 int retry = 5;
-                while (
-                    (res == null || !res.IsSuccessful)
+                while ((res == null || !res.IsSuccessful)
                         && (RefreshToken != null || DeviceId != null)
                         && (res.StatusCode == HttpStatusCode.Unauthorized  // This is returned if the access token needs to be refreshed or wasn't provided.  --Kris
                             || (res.StatusCode == HttpStatusCode.Forbidden && string.Equals(AccessToken, RedditClient.DefaultAccessTokenValue)) // As of July 2024 Reddit API may also return Forbidden when we provide a "null" access token --Lin
