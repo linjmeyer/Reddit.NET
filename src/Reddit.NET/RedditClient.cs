@@ -17,6 +17,12 @@ namespace Reddit
     public class RedditClient
     {
         /// <summary>
+        /// The value used as an access token in the bearer header when none was given or has been
+        /// obtained via a refresh token. Passing "null" instead of null forces the Reddit API to return a non-200
+        /// status code on auth failure, freeing us from having to parse the content string.
+        /// </summary>
+        internal const string DefaultAccessTokenValue = "null";
+        /// <summary>
         /// Endpoint wrapper classes/methods.
         /// </summary>
         public Dispatch Models;
@@ -76,8 +82,7 @@ namespace Reddit
             if (!string.IsNullOrWhiteSpace(refreshToken)
                 || !string.IsNullOrWhiteSpace(accessToken))
             {
-                // Passing "null" instead of null forces the Reddit API to return a non-200 status code on auth failure, freeing us from having to parse the content string.  --Kris
-                Models = new Dispatch(appId, appSecret, refreshToken, (!string.IsNullOrWhiteSpace(accessToken) ? accessToken : "null"), new RestClient("https://oauth.reddit.com"), 
+                Models = new Dispatch(appId, appSecret, refreshToken, (!string.IsNullOrWhiteSpace(accessToken) ? accessToken : DefaultAccessTokenValue), new RestClient("https://oauth.reddit.com"), 
                     userAgent: userAgent);
             }
             else
